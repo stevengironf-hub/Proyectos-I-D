@@ -11,15 +11,26 @@
       --accent-danger: #cc0000;
       --bg-light: #f6f8fa;
       --border-color: #d6e4f0;
-      --text-dark: #222222;
+      
+      /* Variables dinámicas controladas por el usuario */
+      --app-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      --app-font-size: 16px;
+      --app-text-color: #222222;
+      
+      --text-dark: var(--app-text-color);
       --text-muted: #555555;
+    }
+
+    html {
+      /* Cambiar el tamaño base ajustará todo el rem de la página */
+      font-size: var(--app-font-size);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: var(--app-font-family) !important;
     }
 
     body {
@@ -151,10 +162,47 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.04);
     }
 
+    /* Preferencias de Apariencia */
+    .preferences-panel {
+      margin-top: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .pref-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .pref-group input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+    }
+    
+    .pref-group select, .pref-group input[type="color"] {
+      width: 100%;
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+    
+    .pref-group input[type="color"] {
+      height: 35px;
+      padding: 0.1rem;
+      cursor: pointer;
+    }
+
     .tab-actions-admin {
       display: none;
       margin-top: 1rem;
-      padding-top: 1rem;
+      padding-top: 1.5rem;
       border-top: 1px solid #ddd;
       flex-direction: column;
       gap: 0.5rem;
@@ -197,7 +245,7 @@
 
     .hero-box {
       background: #ffffff;
-      color: #222;
+      color: var(--text-dark);
       padding: 2.2rem;
       border-radius: 12px;
       margin-bottom: 2rem;
@@ -212,7 +260,6 @@
     }
 
     .hero-box p {
-      color: #333;
       font-size: 1.05rem;
       line-height: 1.6;
     }
@@ -271,7 +318,6 @@
 
     .card-rich-content {
       line-height: 1.7;
-      color: #333;
       margin-bottom: 1.2rem;
     }
 
@@ -308,18 +354,12 @@
 
     .idea-card p {
       font-size: 0.92rem;
-      color: #333333;
       line-height: 1.55;
     }
 
     .idea-card .idea-meta-line {
       font-size: 0.9rem;
       line-height: 1.45;
-      color: #333;
-    }
-
-    .idea-card .idea-meta-line strong {
-      color: #111;
     }
 
     .media-container {
@@ -380,7 +420,7 @@
       display: block;
       font-size: 0.85rem;
       font-weight: 700;
-      color: #333;
+      color: var(--text-dark);
       margin-bottom: 0.4rem;
     }
 
@@ -391,6 +431,7 @@
       border-radius: 6px;
       font-size: 0.95rem;
       background: #ffffff;
+      color: #000;
     }
 
     /* Barra de Herramientas de Edición Enriquecida */
@@ -429,6 +470,7 @@
       border-radius: 4px;
       font-size: 0.82rem;
       cursor: pointer;
+      color: #000;
     }
 
     .toolbar-color-label {
@@ -462,6 +504,7 @@
       font-size: 0.95rem;
       line-height: 1.6;
       outline: none;
+      color: #000;
     }
 
     .wysiwyg-editor:focus {
@@ -599,6 +642,36 @@
         <ul id="tabList" class="tab-list"></ul>
       </div>
 
+      <!-- Preferencias de Lectura / Apariencia -->
+      <div class="preferences-panel">
+        <div class="sidebar-title">Apariencia</div>
+        
+        <div class="pref-group">
+          <label for="fontFamilySelector">Tipo de Letra:</label>
+          <select id="fontFamilySelector" onchange="updatePreferences()">
+            <option value='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif'>Sistema (Defecto)</option>
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="'Courier New', Courier, monospace">Courier New</option>
+            <option value="Georgia, serif">Georgia</option>
+            <option value="'Times New Roman', Times, serif">Times New Roman</option>
+            <option value="Verdana, sans-serif">Verdana</option>
+          </select>
+        </div>
+
+        <div class="pref-group">
+          <label for="fontSizeSelector">Tamaño Base:</label>
+          <input type="range" id="fontSizeSelector" min="12" max="24" value="16" oninput="updatePreferences(); document.getElementById('fontSizeDisplay').textContent = this.value + 'px';">
+          <span id="fontSizeDisplay" style="font-size:0.8rem; color:var(--text-muted);">16px</span>
+        </div>
+
+        <div class="pref-group">
+          <label for="textColorSelector">Color del Texto:</label>
+          <input type="color" id="textColorSelector" value="#222222" onchange="updatePreferences()">
+        </div>
+        
+        <button class="btn-action-tab" onclick="resetPreferences()" style="margin-top:0.3rem;">Restablecer Ajustes</button>
+      </div>
+
       <div id="tabAdminControls" class="tab-actions-admin">
         <div class="sidebar-title">Gestión de Semanas</div>
         <button class="btn-action-tab" onclick="createNewTab()">+ Añadir Pestaña</button>
@@ -721,6 +794,47 @@
     }
 
     let siteData = loadData();
+
+    // ---------------------------------------------
+    // Funciones de Preferencias de Apariencia
+    // ---------------------------------------------
+    function updatePreferences() {
+      const fontFamily = document.getElementById('fontFamilySelector').value;
+      const fontSize = document.getElementById('fontSizeSelector').value + 'px';
+      const textColor = document.getElementById('textColorSelector').value;
+
+      document.documentElement.style.setProperty('--app-font-family', fontFamily);
+      document.documentElement.style.setProperty('--app-font-size', fontSize);
+      document.documentElement.style.setProperty('--app-text-color', textColor);
+
+      const prefs = { fontFamily, fontSize: document.getElementById('fontSizeSelector').value, textColor };
+      localStorage.setItem('proyecto_id_prefs', JSON.stringify(prefs));
+    }
+
+    function loadPreferences() {
+      const storedPrefs = localStorage.getItem('proyecto_id_prefs');
+      if (storedPrefs) {
+        const prefs = JSON.parse(storedPrefs);
+        
+        document.documentElement.style.setProperty('--app-font-family', prefs.fontFamily);
+        document.documentElement.style.setProperty('--app-font-size', prefs.fontSize + 'px');
+        document.documentElement.style.setProperty('--app-text-color', prefs.textColor);
+        
+        document.getElementById('fontFamilySelector').value = prefs.fontFamily;
+        document.getElementById('fontSizeSelector').value = prefs.fontSize;
+        document.getElementById('fontSizeDisplay').textContent = prefs.fontSize + 'px';
+        document.getElementById('textColorSelector').value = prefs.textColor;
+      }
+    }
+    
+    function resetPreferences() {
+      document.getElementById('fontFamilySelector').value = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif';
+      document.getElementById('fontSizeSelector').value = '16';
+      document.getElementById('fontSizeDisplay').textContent = '16px';
+      document.getElementById('textColorSelector').value = '#222222';
+      updatePreferences();
+    }
+    // ---------------------------------------------
 
     function toggleAuth() {
       if (isMemberAuthenticated) {
@@ -1009,6 +1123,8 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      // Cargar preferencias guardadas antes de renderizar
+      loadPreferences();
       renderView();
     });
   </script>
