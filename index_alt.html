@@ -1,4 +1,2038 @@
 <!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Proyecto I+D | Bitácora Semanal</title>
+
+<style>
+
+:root {
+
+--primary-color: #003366;
+
+--primary-hover: #002244;
+
+--accent-danger: #cc0000;
+
+--bg-light: #f6f8fa;
+
+--border-color: #d6e4f0;
+
+--text-dark: #222222;
+
+--text-muted: #555555;
+
+}
+
+
+
+* {
+
+box-sizing: border-box;
+
+margin: 0;
+
+padding: 0;
+
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+}
+
+
+
+body {
+
+background-color: #ffffff;
+
+color: var(--text-dark);
+
+display: flex;
+
+flex-direction: column;
+
+min-height: 100vh;
+
+}
+
+
+
+/* Barra Superior / Navbar */
+
+.navbar {
+
+background: #ffffff;
+
+border-bottom: 2px solid var(--primary-color);
+
+padding: 0.8rem 2rem;
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+position: sticky;
+
+top: 0;
+
+z-index: 1000;
+
+}
+
+
+
+.brand-title {
+
+font-size: 1.3rem;
+
+font-weight: 700;
+
+color: var(--primary-color);
+
+display: flex;
+
+flex-direction: column;
+
+}
+
+
+
+.brand-title span {
+
+font-size: 0.8rem;
+
+color: var(--text-muted);
+
+font-weight: 400;
+
+letter-spacing: 0.05em;
+
+}
+
+
+
+.nav-actions {
+
+display: flex;
+
+align-items: center;
+
+gap: 1rem;
+
+}
+
+
+
+.btn-auth {
+
+background: var(--primary-color);
+
+color: #ffffff;
+
+border: none;
+
+padding: 0.5rem 1rem;
+
+border-radius: 6px;
+
+font-weight: 600;
+
+cursor: pointer;
+
+font-size: 0.9rem;
+
+transition: background 0.2s;
+
+}
+
+
+
+.btn-auth:hover {
+
+background: var(--primary-hover);
+
+}
+
+
+
+.auth-badge {
+
+display: none;
+
+background: #dff5e1;
+
+color: #137333;
+
+padding: 0.35rem 0.8rem;
+
+border-radius: 999px;
+
+font-size: 0.8rem;
+
+font-weight: 600;
+
+}
+
+
+
+/* Layout General con Sidebar */
+
+.app-container {
+
+display: flex;
+
+flex: 1;
+
+}
+
+
+
+.sidebar {
+
+width: 260px;
+
+background: var(--bg-light);
+
+border-right: 1px solid #ddd;
+
+padding: 1.5rem 1rem;
+
+display: flex;
+
+flex-direction: column;
+
+gap: 1rem;
+
+}
+
+
+
+.sidebar-title {
+
+font-size: 0.85rem;
+
+text-transform: uppercase;
+
+letter-spacing: 0.05em;
+
+color: var(--text-muted);
+
+font-weight: 700;
+
+margin-bottom: 0.5rem;
+
+}
+
+
+
+.tab-list {
+
+display: flex;
+
+flex-direction: column;
+
+gap: 0.4rem;
+
+list-style: none;
+
+}
+
+
+
+.tab-button {
+
+width: 100%;
+
+text-align: left;
+
+padding: 0.7rem 0.9rem;
+
+background: transparent;
+
+border: 1px solid transparent;
+
+border-radius: 6px;
+
+font-size: 0.95rem;
+
+color: var(--text-dark);
+
+cursor: pointer;
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+transition: background 0.2s;
+
+}
+
+
+
+.tab-button:hover {
+
+background: #eef2f6;
+
+}
+
+
+
+.tab-button.active {
+
+background: #ffffff;
+
+border-color: var(--border-color);
+
+border-left: 5px solid var(--primary-color);
+
+font-weight: 700;
+
+color: var(--primary-color);
+
+box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+
+}
+
+
+
+.tab-actions-admin {
+
+display: none;
+
+margin-top: 1rem;
+
+padding-top: 1rem;
+
+border-top: 1px solid #ddd;
+
+flex-direction: column;
+
+gap: 0.5rem;
+
+}
+
+
+
+.btn-action-tab {
+
+background: #ffffff;
+
+border: 1px solid var(--primary-color);
+
+color: var(--primary-color);
+
+padding: 0.5rem;
+
+border-radius: 6px;
+
+font-size: 0.85rem;
+
+font-weight: 600;
+
+cursor: pointer;
+
+text-align: center;
+
+transition: all 0.2s;
+
+}
+
+
+
+.btn-action-tab:hover {
+
+background: var(--primary-color);
+
+color: #ffffff;
+
+}
+
+
+
+.btn-delete-tab {
+
+border-color: var(--accent-danger);
+
+color: var(--accent-danger);
+
+}
+
+
+
+.btn-delete-tab:hover {
+
+background: var(--accent-danger);
+
+color: #ffffff;
+
+}
+
+
+
+/* Área de Contenido Principal */
+
+.content-area {
+
+flex: 1;
+
+padding: 2.5rem;
+
+max-width: 1180px;
+
+}
+
+
+
+.hero-box {
+
+background: #ffffff;
+
+color: #222;
+
+padding: 2.2rem;
+
+border-radius: 12px;
+
+margin-bottom: 2rem;
+
+border-left: 8px solid var(--primary-color);
+
+box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+
+}
+
+
+
+.hero-box h1 {
+
+color: var(--primary-color);
+
+font-size: 2.2rem;
+
+margin-bottom: 0.6rem;
+
+}
+
+
+
+.hero-box p {
+
+color: #333;
+
+font-size: 1.05rem;
+
+line-height: 1.6;
+
+}
+
+
+
+.team-grid {
+
+display: grid;
+
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+gap: 1.2rem;
+
+margin: 2rem 0;
+
+}
+
+
+
+.team-card {
+
+background: #ffffff;
+
+border-radius: 10px;
+
+padding: 1.2rem;
+
+border: 1px solid var(--border-color);
+
+box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+border-top: 4px solid var(--primary-color);
+
+}
+
+
+
+.team-card span {
+
+display: block;
+
+font-size: 0.75rem;
+
+color: var(--text-muted);
+
+text-transform: uppercase;
+
+letter-spacing: 0.05em;
+
+margin-bottom: 0.3rem;
+
+}
+
+
+
+.team-card strong {
+
+font-size: 1.15rem;
+
+color: var(--primary-color);
+
+}
+
+
+
+.section-box {
+
+background: var(--bg-light);
+
+border-left: 6px solid var(--primary-color);
+
+padding: 1.4rem;
+
+margin: 1.8rem 0;
+
+border-radius: 6px;
+
+}
+
+
+
+.card {
+
+background: #ffffff;
+
+border: 1px solid #ddd;
+
+border-radius: 8px;
+
+padding: 1.6rem;
+
+margin: 1.8rem 0;
+
+position: relative;
+
+}
+
+
+
+.card h3 {
+
+color: var(--primary-color);
+
+margin-bottom: 0.8rem;
+
+}
+
+
+
+.card-rich-content {
+
+line-height: 1.7;
+
+color: #333;
+
+margin-bottom: 1.2rem;
+
+}
+
+
+
+.card-rich-content ul, .card-rich-content ol {
+
+padding-left: 1.5rem;
+
+margin: 0.6rem 0;
+
+}
+
+
+
+/* Grilla de Exploración de Ideas (Estilo de la imagen de referencia) */
+
+.ideas-grid {
+
+display: grid;
+
+grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+
+gap: 1.2rem;
+
+margin: 1.5rem 0;
+
+}
+
+
+
+.idea-card {
+
+background: #ffffff;
+
+border: 1px solid var(--border-color);
+
+border-radius: 10px;
+
+padding: 1.2rem;
+
+box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+
+display: flex;
+
+flex-direction: column;
+
+gap: 0.8rem;
+
+}
+
+
+
+.idea-card h4 {
+
+color: var(--primary-color);
+
+font-size: 1.05rem;
+
+line-height: 1.4;
+
+font-weight: 700;
+
+}
+
+
+
+.idea-card p {
+
+font-size: 0.92rem;
+
+color: #333333;
+
+line-height: 1.55;
+
+}
+
+
+
+.idea-card .idea-meta-line {
+
+font-size: 0.9rem;
+
+line-height: 1.45;
+
+color: #333;
+
+}
+
+
+
+.idea-card .idea-meta-line strong {
+
+color: #111;
+
+}
+
+
+
+.media-container {
+
+margin-top: 1.2rem;
+
+display: flex;
+
+flex-direction: column;
+
+gap: 1.2rem;
+
+}
+
+
+
+.media-container img {
+
+max-width: 100%;
+
+height: auto;
+
+border-radius: 8px;
+
+border: 1px solid #ddd;
+
+background: #ffffff;
+
+padding: 5px;
+
+}
+
+
+
+.media-container video {
+
+width: 100%;
+
+max-width: 800px;
+
+border-radius: 8px;
+
+border: 1px solid #ddd;
+
+background: #ffffff;
+
+padding: 5px;
+
+}
+
+
+
+.empty-state {
+
+text-align: center;
+
+padding: 3rem 1rem;
+
+color: var(--text-muted);
+
+border: 2px dashed #ddd;
+
+border-radius: 8px;
+
+margin: 1.5rem 0;
+
+}
+
+
+
+/* Panel de Edición Avanzada (Solo Integrantes) */
+
+.editor-panel {
+
+display: none;
+
+background: #f0f5fa;
+
+border: 1px solid #c2d8ee;
+
+border-radius: 10px;
+
+padding: 1.6rem;
+
+margin-bottom: 2rem;
+
+}
+
+
+
+.editor-panel h3 {
+
+color: var(--primary-color);
+
+margin-bottom: 1rem;
+
+font-size: 1.2rem;
+
+}
+
+
+
+.form-group {
+
+margin-bottom: 1.2rem;
+
+}
+
+
+
+.form-group label {
+
+display: block;
+
+font-size: 0.85rem;
+
+font-weight: 700;
+
+color: #333;
+
+margin-bottom: 0.4rem;
+
+}
+
+
+
+.form-control {
+
+width: 100%;
+
+padding: 0.6rem 0.8rem;
+
+border: 1px solid #ccc;
+
+border-radius: 6px;
+
+font-size: 0.95rem;
+
+background: #ffffff;
+
+}
+
+
+
+/* Barra de Herramientas de Edición Enriquecida */
+
+.wysiwyg-toolbar {
+
+display: flex;
+
+flex-wrap: wrap;
+
+gap: 0.4rem;
+
+background: #e4ecf5;
+
+padding: 0.5rem;
+
+border: 1px solid #c4d7ec;
+
+border-bottom: none;
+
+border-radius: 6px 6px 0 0;
+
+align-items: center;
+
+}
+
+
+
+.toolbar-btn {
+
+background: #ffffff;
+
+border: 1px solid #b8cee4;
+
+color: #333;
+
+padding: 0.35rem 0.65rem;
+
+border-radius: 4px;
+
+font-size: 0.85rem;
+
+cursor: pointer;
+
+font-weight: 600;
+
+}
+
+
+
+.toolbar-btn:hover {
+
+background: var(--primary-color);
+
+color: #ffffff;
+
+}
+
+
+
+.toolbar-select {
+
+background: #ffffff;
+
+border: 1px solid #b8cee4;
+
+padding: 0.3rem 0.5rem;
+
+border-radius: 4px;
+
+font-size: 0.82rem;
+
+cursor: pointer;
+
+}
+
+
+
+.toolbar-color-label {
+
+display: flex;
+
+align-items: center;
+
+gap: 0.2rem;
+
+font-size: 0.8rem;
+
+font-weight: 600;
+
+margin-left: 0.3rem;
+
+color: #444;
+
+}
+
+
+
+.toolbar-color-picker {
+
+border: none;
+
+width: 26px;
+
+height: 26px;
+
+cursor: pointer;
+
+background: none;
+
+}
+
+
+
+/* Editor contenteditable */
+
+.wysiwyg-editor {
+
+width: 100%;
+
+min-height: 140px;
+
+max-height: 380px;
+
+overflow-y: auto;
+
+background: #ffffff;
+
+border: 1px solid #c4d7ec;
+
+border-radius: 0 0 6px 6px;
+
+padding: 0.8rem;
+
+font-size: 0.95rem;
+
+line-height: 1.6;
+
+outline: none;
+
+}
+
+
+
+.wysiwyg-editor:focus {
+
+border-color: var(--primary-color);
+
+}
+
+
+
+/* Sección de Sub-ideas / Opciones */
+
+.ideas-builder-box {
+
+background: #ffffff;
+
+border: 1px solid #c9dcf0;
+
+border-radius: 8px;
+
+padding: 1.2rem;
+
+margin: 1.2rem 0;
+
+}
+
+
+
+.ideas-builder-header {
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+margin-bottom: 0.8rem;
+
+}
+
+
+
+.ideas-builder-header h4 {
+
+color: var(--primary-color);
+
+font-size: 1rem;
+
+}
+
+
+
+.btn-add-idea {
+
+background: #eef5fc;
+
+border: 1px solid var(--primary-color);
+
+color: var(--primary-color);
+
+padding: 0.4rem 0.8rem;
+
+border-radius: 5px;
+
+font-weight: 600;
+
+font-size: 0.85rem;
+
+cursor: pointer;
+
+transition: all 0.2s;
+
+}
+
+
+
+.btn-add-idea:hover {
+
+background: var(--primary-color);
+
+color: #ffffff;
+
+}
+
+
+
+.sub-idea-item {
+
+background: #fbfcfe;
+
+border: 1px solid #d9e6f3;
+
+border-left: 4px solid var(--primary-color);
+
+border-radius: 6px;
+
+padding: 0.9rem;
+
+margin-bottom: 0.8rem;
+
+position: relative;
+
+}
+
+
+
+.btn-remove-subidea {
+
+position: absolute;
+
+top: 0.6rem;
+
+right: 0.6rem;
+
+background: transparent;
+
+border: none;
+
+color: var(--accent-danger);
+
+font-weight: bold;
+
+cursor: pointer;
+
+font-size: 0.9rem;
+
+}
+
+
+
+.btn-submit-entry {
+
+background: var(--primary-color);
+
+color: #ffffff;
+
+border: none;
+
+padding: 0.7rem 1.4rem;
+
+border-radius: 6px;
+
+font-weight: 600;
+
+cursor: pointer;
+
+font-size: 0.95rem;
+
+}
+
+
+
+.btn-remove-entry {
+
+position: absolute;
+
+top: 1.2rem;
+
+right: 1.2rem;
+
+background: #ffeeee;
+
+color: var(--accent-danger);
+
+border: 1px solid #ffcccc;
+
+padding: 0.35rem 0.7rem;
+
+border-radius: 4px;
+
+cursor: pointer;
+
+font-size: 0.8rem;
+
+font-weight: 600;
+
+}
+
+
+
+.tech-footer {
+
+background: #ffffff;
+
+border-top: 1px solid #ddd;
+
+padding: 1.5rem 2rem;
+
+text-align: center;
+
+font-size: 0.85rem;
+
+color: var(--text-muted);
+
+margin-top: auto;
+
+}
+
+
+
+@media (max-width: 820px) {
+
+.app-container {
+
+flex-direction: column;
+
+}
+
+.sidebar {
+
+width: 100%;
+
+border-right: none;
+
+border-bottom: 1px solid #ddd;
+
+}
+
+.content-area {
+
+padding: 1.5rem;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<header class="navbar">
+
+<div class="brand-title">
+
+Proyecto I+D
+
+<span>Bitácora de Desarrollo e Investigación</span>
+
+</div>
+
+<div class="nav-actions">
+
+<span id="authBadge" class="auth-badge">Modo Edición Habilitado</span>
+
+<button id="authBtn" class="btn-auth" onclick="toggleAuth()">Acceso Integrantes</button>
+
+</div>
+
+</header>
+
+
+
+<div class="app-container">
+
+
+
+<aside class="sidebar">
+
+<div>
+
+<div class="sidebar-title">Navegación</div>
+
+<ul id="tabList" class="tab-list"></ul>
+
+</div>
+
+
+
+<div id="tabAdminControls" class="tab-actions-admin">
+
+<div class="sidebar-title">Gestión de Semanas</div>
+
+<button class="btn-action-tab" onclick="createNewTab()">+ Añadir Pestaña</button>
+
+<button class="btn-action-tab btn-delete-tab" onclick="deleteCurrentTab()">Eliminar Pestaña Actual</button>
+
+</div>
+
+</aside>
+
+
+
+<main class="content-area">
+
+
+
+<!-- Formulario de Publicación Avanzado -->
+
+<div id="editorPanel" class="editor-panel">
+
+<h3 id="editorTitle">Registrar Nuevo Avance</h3>
+
+
+<div class="form-group">
+
+<label for="entryTitle">Título de la actividad principal:</label>
+
+<input type="text" id="entryTitle" class="form-control" placeholder="Ej. 2. Exploración de ideas para el proyecto">
+
+</div>
+
+
+
+<!-- Barra de herramientas enriquecida y área de texto -->
+
+<div class="form-group">
+
+<label>Descripción detallada del progreso (Opciones de formato):</label>
+
+<div class="wysiwyg-toolbar">
+
+<!-- Fuente -->
+
+<select class="toolbar-select" onchange="formatDoc('fontName', this.value); this.selectedIndex=0;">
+
+<option value="" disabled selected>Fuente</option>
+
+<option value="Arial">Arial</option>
+
+<option value="Georgia">Georgia</option>
+
+<option value="Courier New">Courier New</option>
+
+<option value="Verdana">Verdana</option>
+
+<option value="Segoe UI">Segoe UI</option>
+
+<option value="Impact">Impact</option>
+
+</select>
+
+
+
+<!-- Tamaño -->
+
+<select class="toolbar-select" onchange="formatDoc('fontSize', this.value); this.selectedIndex=0;">
+
+<option value="" disabled selected>Tamaño</option>
+
+<option value="2">Pequeño</option>
+
+<option value="3">Normal</option>
+
+<option value="4">Mediano</option>
+
+<option value="5">Grande</option>
+
+<option value="6">Título</option>
+
+</select>
+
+
+
+<!-- Estilos directos -->
+
+<button type="button" class="toolbar-btn" onclick="formatDoc('bold')" title="Negrita"><b>B</b></button>
+
+<button type="button" class="toolbar-btn" onclick="formatDoc('italic')" title="Cursiva"><i>I</i></button>
+
+<button type="button" class="toolbar-btn" onclick="formatDoc('underline')" title="Subrayado"><u>U</u></button>
+
+<button type="button" class="toolbar-btn" onclick="formatDoc('strikeThrough')" title="Tachado"><s>S</s></button>
+
+<button type="button" class="toolbar-btn" onclick="formatDoc('insertUnorderedList')" title="Viñetas">• Lista</button>
+
+<button type="button" class="toolbar-btn" onclick="formatDoc('insertOrderedList')" title="Numeración">1. Lista</button>
+
+
+
+<!-- Colores -->
+
+<label class="toolbar-color-label" title="Color de letra">
+
+A: <input type="color" class="toolbar-color-picker" onchange="formatDoc('foreColor', this.value)" value="#003366">
+
+</label>
+
+<label class="toolbar-color-label" title="Resaltado de fondo">
+
+Fondo: <input type="color" class="toolbar-color-picker" onchange="formatDoc('hiliteColor', this.value)" value="#fff8c4">
+
+</label>
+
+
+
+<button type="button" class="toolbar-btn" onclick="formatDoc('removeFormat')" title="Limpiar formato">✕ Limpiar</button>
+
+</div>
+
+<div id="richEditor" class="wysiwyg-editor" contenteditable="true" placeholder="Escriba aquí la descripción o introducción de la actividad..."></div>
+
+</div>
+
+
+
+<!-- Módulo de Cuadrícula de Ideas (Separador de opciones comparativas) -->
+
+<div class="ideas-builder-box">
+
+<div class="ideas-builder-header">
+
+<div>
+
+<h4>Tarjetas Comparativas / Separador de Ideas (Estilo Cuadrícula)</h4>
+
+<p style="font-size: 0.8rem; color: #666;">Añada opciones o ramificaciones de una misma actividad (Ej. Opción A, Opción B, etc.):</p>
+
+</div>
+
+<button type="button" class="btn-add-idea" onclick="addIdeaRow()">+ Añadir Tarjeta de Idea</button>
+
+</div>
+
+<div id="subIdeasContainer"></div>
+
+</div>
+
+
+
+<!-- Archivos multimedia -->
+
+<div class="form-group">
+
+<label for="entryImage">Adjuntar Fotografía / Diagrama:</label>
+
+<input type="file" id="entryImage" class="form-control" accept="image/*">
+
+</div>
+
+<div class="form-group">
+
+<label for="entryVideo">Adjuntar Video de evidencia:</label>
+
+<input type="file" id="entryVideo" class="form-control" accept="video/*">
+
+</div>
+
+
+
+<button class="btn-submit-entry" onclick="saveNewEntry()">Publicar en esta pestaña</button>
+
+</div>
+
+
+
+<!-- Renderizador de Contenidos -->
+
+<div id="tabContentContainer"></div>
+
+
+
+</main>
+
+</div>
+
+
+
+<footer class="tech-footer">
+
+<p><strong>Proyecto I+D</strong> | Javier Abad · Steven Giron · Francisco Siguenza · Juan Pablo Quinteros</p>
+
+<p style="margin-top: 0.3rem;">Repositorio técnico de avances y documentación semanal.</p>
+
+</footer>
+
+
+
+<script>
+
+const TEAM_PASSWORD = "equipo";
+
+let isMemberAuthenticated = false;
+
+let activeTabId = "portada";
+
+
+
+const DEFAULT_DATA = {
+
+tabs: [
+
+{ id: "portada", title: "Portada General", isDeletable: false, entries: [] },
+
+{ id: "semana-1", title: "Semana 01", isDeletable: true, entries: [] }
+
+]
+
+};
+
+
+
+function loadData() {
+
+const stored = localStorage.getItem("proyecto_id_data");
+
+return stored ? JSON.parse(stored) : DEFAULT_DATA;
+
+}
+
+
+
+function saveData(data) {
+
+localStorage.setItem("proyecto_id_data", JSON.stringify(data));
+
+}
+
+
+
+let siteData = loadData();
+
+
+
+function toggleAuth() {
+
+if (isMemberAuthenticated) {
+
+isMemberAuthenticated = false;
+
+document.getElementById("authBtn").textContent = "Acceso Integrantes";
+
+document.getElementById("authBadge").style.display = "none";
+
+document.getElementById("tabAdminControls").style.display = "none";
+
+document.getElementById("editorPanel").style.display = "none";
+
+renderView();
+
+} else {
+
+const pass = prompt("Ingrese la clave de integrante para editar:");
+
+if (pass === TEAM_PASSWORD) {
+
+isMemberAuthenticated = true;
+
+document.getElementById("authBtn").textContent = "Cerrar Sesión";
+
+document.getElementById("authBadge").style.display = "inline-block";
+
+document.getElementById("tabAdminControls").style.display = "flex";
+
+renderView();
+
+} else if (pass !== null) {
+
+alert("Clave incorrecta. Modo de solo lectura activo.");
+
+}
+
+}
+
+}
+
+
+
+function renderTabs() {
+
+const tabList = document.getElementById("tabList");
+
+tabList.innerHTML = "";
+
+
+
+siteData.tabs.forEach(tab => {
+
+const li = document.createElement("li");
+
+const btn = document.createElement("button");
+
+btn.className = `tab-button ${tab.id === activeTabId ? 'active' : ''}`;
+
+btn.textContent = tab.title;
+
+btn.onclick = () => {
+
+activeTabId = tab.id;
+
+renderView();
+
+};
+
+li.appendChild(btn);
+
+tabList.appendChild(li);
+
+});
+
+}
+
+
+
+function renderView() {
+
+renderTabs();
+
+const container = document.getElementById("tabContentContainer");
+
+const editorPanel = document.getElementById("editorPanel");
+
+
+
+if (isMemberAuthenticated && activeTabId !== "portada") {
+
+editorPanel.style.display = "block";
+
+document.getElementById("editorTitle").textContent = `Registrar Nuevo Avance en ${getCurrentTab().title}`;
+
+} else {
+
+editorPanel.style.display = "none";
+
+}
+
+
+
+if (activeTabId === "portada") {
+
+container.innerHTML = `
+
+<div class="hero-box">
+
+<h1>Proyecto I+D</h1>
+
+<p>Portal oficial de documentación técnica e investigación aplicada. En este repositorio se registran cronológicamente las exploraciones de ideas, formulaciones metodológicas y validaciones de prototipo.</p>
+
+</div>
+
+
+
+<div class="section-box">
+
+<h2>Equipo de Trabajo</h2>
+
+<p>Integrantes responsables del diseño, desarrollo y validación del proyecto:</p>
+
+<div class="team-grid">
+
+<div class="team-card">
+
+<span>Investigador / Desarrollo</span>
+
+<strong>Javier Abad</strong>
+
+</div>
+
+<div class="team-card">
+
+<span>Investigador / Desarrollo</span>
+
+<strong>Steven Giron</strong>
+
+</div>
+
+<div class="team-card">
+
+<span>Investigador / Desarrollo</span>
+
+<strong>Francisco Siguenza</strong>
+
+</div>
+
+<div class="team-card">
+
+<span>Investigador / Desarrollo</span>
+
+<strong>Juan Pablo Quinteros</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Estructura del Proyecto</h3>
+
+<p>Utilice la navegación lateral para consultar los registros y avances correspondientes a cada semana.</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+
+const currentTab = getCurrentTab();
+
+if (!currentTab) return;
+
+
+
+if (currentTab.entries.length === 0) {
+
+container.innerHTML = `
+
+<div class="section-box">
+
+<h2>${currentTab.title}</h2>
+
+</div>
+
+<div class="empty-state">
+
+<p>Esta pestaña se encuentra en blanco.</p>
+
+${isMemberAuthenticated ? '<p><small>Utilice el formulario superior para añadir el primer avance semanal.</small></p>' : '<p><small>Aún no se han publicado avances para este período.</small></p>'}
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+
+let entriesHtml = `
+
+<div class="section-box">
+
+<h2>${currentTab.title}</h2>
+
+</div>
+
+`;
+
+
+
+currentTab.entries.forEach((entry, index) => {
+
+let ideasHtml = "";
+
+if (entry.ideas && entry.ideas.length > 0) {
+
+ideasHtml = `<div class="ideas-grid">`;
+
+entry.ideas.forEach(idea => {
+
+ideasHtml += `
+
+<div class="idea-card">
+
+<h4>${idea.title}</h4>
+
+${idea.desc ? `<p>${idea.desc}</p>` : ''}
+
+${idea.pro ? `<div class="idea-meta-line"><strong>Ventajas:</strong> ${idea.pro}</div>` : ''}
+
+${idea.con ? `<div class="idea-meta-line"><strong>Desventajas:</strong> ${idea.con}</div>` : ''}
+
+</div>
+
+`;
+
+});
+
+ideasHtml += `</div>`;
+
+}
+
+
+
+entriesHtml += `
+
+<div class="card">
+
+${isMemberAuthenticated ? `<button class="btn-remove-entry" onclick="deleteEntry(${index})">Eliminar actividad</button>` : ''}
+
+<h3>${entry.title}</h3>
+
+
+${entry.htmlContent ? `<div class="card-rich-content">${entry.htmlContent}</div>` : ''}
+
+
+${ideasHtml}
+
+
+
+<div class="media-container">
+
+${entry.image ? `<img src="${entry.image}" alt="Evidencia visual">` : ''}
+
+${entry.video ? `<video controls><source src="${entry.video}">Su navegador no admite la reproducción de video.</video>` : ''}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+
+container.innerHTML = entriesHtml;
+
+}
+
+
+
+function getCurrentTab() {
+
+return siteData.tabs.find(t => t.id === activeTabId);
+
+}
+
+
+
+function createNewTab() {
+
+const name = prompt("Ingrese el nombre de la nueva pestaña (ej. Semana 02):");
+
+if (!name) return;
+
+
+
+const newId = "tab-" + Date.now();
+
+siteData.tabs.push({
+
+id: newId,
+
+title: name,
+
+isDeletable: true,
+
+entries: []
+
+});
+
+saveData(siteData);
+
+activeTabId = newId;
+
+renderView();
+
+}
+
+
+
+function deleteCurrentTab() {
+
+const tab = getCurrentTab();
+
+if (!tab.isDeletable) {
+
+alert("La portada principal no se puede eliminar.");
+
+return;
+
+}
+
+if (confirm(`¿Seguro que desea eliminar la pestaña "${tab.title}" y todo su contenido?`)) {
+
+siteData.tabs = siteData.tabs.filter(t => t.id !== activeTabId);
+
+activeTabId = "portada";
+
+saveData(siteData);
+
+renderView();
+
+}
+
+}
+
+
+
+/* Funciones para formato de texto enriquecido */
+
+function formatDoc(command, value = null) {
+
+document.execCommand(command, false, value);
+
+document.getElementById("richEditor").focus();
+
+}
+
+
+
+/* Módulo dinámico para tarjetas de opciones/ideas */
+
+function addIdeaRow() {
+
+const container = document.getElementById("subIdeasContainer");
+
+const div = document.createElement("div");
+
+div.className = "sub-idea-item";
+
+div.innerHTML = `
+
+<button type="button" class="btn-remove-subidea" onclick="this.parentElement.remove()" title="Eliminar tarjeta">✕</button>
+
+<div style="margin-bottom: 0.5rem;">
+
+<input type="text" class="form-control sub-title" placeholder="Título (Ej. Opción A: Bomba de humedad basada en umbral)" style="font-weight: bold; margin-bottom: 0.4rem;">
+
+<textarea class="form-control sub-desc" placeholder="Descripción de esta idea o concepto..." style="min-height: 60px; margin-bottom: 0.4rem;"></textarea>
+
+<input type="text" class="form-control sub-pro" placeholder="Ventajas (Ej. Bajo coste, fácil de construir...)" style="margin-bottom: 0.4rem;">
+
+<input type="text" class="form-control sub-con" placeholder="Desventajas (Ej. No es adaptable, mayor complejidad...)">
+
+</div>
+
+`;
+
+container.appendChild(div);
+
+}
+
+
+
+function readFileAsDataURL(file) {
+
+return new Promise((resolve) => {
+
+if (!file) return resolve(null);
+
+const reader = new FileReader();
+
+reader.onload = (e) => resolve(e.target.result);
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+
+
+async function saveNewEntry() {
+
+const titleInput = document.getElementById("entryTitle");
+
+const richEditor = document.getElementById("richEditor");
+
+const imageInput = document.getElementById("entryImage");
+
+const videoInput = document.getElementById("entryVideo");
+
+
+
+const title = titleInput.value.trim() || "Registro de actividad";
+
+const htmlContent = richEditor.innerHTML.trim();
+
+
+
+// Recopilar ideas/tarjetas adicionales
+
+const ideaCards = [];
+
+document.querySelectorAll(".sub-idea-item").forEach(item => {
+
+const itemTitle = item.querySelector(".sub-title").value.trim();
+
+const itemDesc = item.querySelector(".sub-desc").value.trim();
+
+const itemPro = item.querySelector(".sub-pro").value.trim();
+
+const itemCon = item.querySelector(".sub-con").value.trim();
+
+
+
+if (itemTitle || itemDesc || itemPro || itemCon) {
+
+ideaCards.push({
+
+title: itemTitle || "Opción / Idea",
+
+desc: itemDesc,
+
+pro: itemPro,
+
+con: itemCon
+
+});
+
+}
+
+});
+
+
+
+if (!htmlContent && ideaCards.length === 0 && !imageInput.files[0] && !videoInput.files[0]) {
+
+alert("Por favor ingrese una descripción, al menos una tarjeta de idea o un archivo multimedia.");
+
+return;
+
+}
+
+
+
+const imgFile = imageInput.files[0];
+
+const vidFile = videoInput.files[0];
+
+
+
+const [imgData, vidData] = await Promise.all([
+
+readFileAsDataURL(imgFile),
+
+readFileAsDataURL(vidFile)
+
+]);
+
+
+
+const newEntry = {
+
+title: title,
+
+htmlContent: htmlContent === "<br>" ? "" : htmlContent,
+
+ideas: ideaCards,
+
+image: imgData,
+
+video: vidData
+
+};
+
+
+
+const tab = getCurrentTab();
+
+tab.entries.push(newEntry);
+
+saveData(siteData);
+
+
+
+// Limpiar formulario
+
+titleInput.value = "";
+
+richEditor.innerHTML = "";
+
+document.getElementById("subIdeasContainer").innerHTML = "";
+
+imageInput.value = "";
+
+videoInput.value = "";
+
+
+
+renderView();
+
+}
+
+
+
+function deleteEntry(index) {
+
+if (confirm("¿Desea eliminar esta publicación?")) {
+
+const tab = getCurrentTab();
+
+tab.entries.splice(index, 1);
+
+saveData(siteData);
+
+renderView();
+
+}
+
+}
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+renderView();
+
+});
+
+</script>
+
+</body>
+
+</html> 
+
+Aquí tienes el código completo con la nueva funcionalidad. He agregado un panel de "Preferencias de Lectura e Interfaz" en la barra lateral.
+
+Con esto, cualquier usuario podrá modificar el tipo de letra, el tamaño base de la letra (que escalará toda la interfaz de forma armónica gracias al uso de unidades relativas) y el color principal del texto. Además, los cambios se guardan automáticamente en el navegador para que se mantengan al recargar la página.
+
+HTML
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
